@@ -17,7 +17,7 @@ class CategoryFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->sentence(3,true)
+            'name' => $this->faker->sentence(rand(2,5),true)
         ];
     }
 }

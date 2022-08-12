@@ -22,13 +22,14 @@ class DatabaseSeeder extends Seeder
 
         $categories = Category::factory(5)->create();
 
-        User::factory(5)->create();
+        $users = User::factory(5)->create();
 
-        Product::factory(10)->create([
+        Product::factory(5)->create([
             'category_id' => ($categories->random(1)->first())->id
-        ])->each(function($product){
+        ])->each(function($product) use ($users) {
             Comment::factory(rand(1,5))->create([
-                'product_id'=> $product->id
+                'product_id'=> $product->id,
+                'user_id'=> ($users->random(1)->first())->id
             ]);
         });
     }
