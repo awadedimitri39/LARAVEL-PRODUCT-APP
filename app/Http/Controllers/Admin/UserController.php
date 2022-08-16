@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreCategoryRequest;
-use App\Models\Category;
+use App\Models\User;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +15,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::all();
-        return view('admin.category.index',compact('categories'));
+        $users = User::all();
+        return view('admin.user.index',compact('users'));
     }
 
     /**
@@ -27,8 +26,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $categories = Category::all();
-        return view('admin.category.create',compact('categories'));
+        //
     }
 
     /**
@@ -37,12 +35,9 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreCategoryRequest $request)
+    public function store(Request $request)
     {
-        Category::create([
-            'name' => $request->name,
-        ]);
-        return redirect()->route('admin.categories.index')->with('message','Category added successfully');
+        //
     }
 
     /**
@@ -62,10 +57,9 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Category $category)
+    public function edit($id)
     {
-        $categories = Category::all();
-        return view('admin.category.edit',compact('category','categories'));
+        //
     }
 
     /**
@@ -75,13 +69,9 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(StoreCategoryRequest $request, Category $category)
+    public function update(Request $request, $id)
     {
-        $arrayUpdate = [
-            'name' => $request->name
-        ];
-        $category->update($arrayUpdate);
-        return redirect()->route('admin.categories.index')->with('message','Category updated successfully');
+        //
     }
 
     /**
@@ -90,9 +80,8 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category $category)
+    public function destroy($id)
     {
-        $category->delete();
-        return redirect()->route('admin.categories.index')->with('message','Category deleted successfully');
+        //
     }
 }

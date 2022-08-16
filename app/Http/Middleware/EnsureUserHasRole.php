@@ -19,6 +19,6 @@ class EnsureUserHasRole
         
         if ($request->user()->roles()->where('name',$role)->exists()) return $next($request);
 
-        abort(403);
+        return redirect()->route('products.index')->with("message","You are not admin");
     }
 }

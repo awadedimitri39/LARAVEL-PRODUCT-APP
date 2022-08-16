@@ -6,7 +6,7 @@
     </x-slot>
     <div class="grid grid-cols-1 p-1 rounded-lg border border-gray-400 shadow dark:bg-gray-800 dark:border-gray-700">
         <div>
-            <img src="{{$product->image}}" alt="step3">
+            <img src="{{ asset('/storage/'.$product->image)}}" alt="step3">
         </div>
         <div>
             <h5 class="my-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">

@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProductController;
@@ -27,13 +30,25 @@ Route::get('comment/{id}',[CommentController::class,'getCommentsByUserId'])->nam
 
 
 //Dashboard Routes
-Route::get('/dashboard', [DashboardController::class,'index'])->middleware(['auth'])->name('dashboard');
+Route::get('dashboard', [DashboardController::class,'index'])->middleware(['auth'])->name('dashboard');
 
 
 //Admin Routes
 Route::middleware(['auth', 'role:admin'])->name('admin.')->prefix('admin')->group(function(){
-    Route::get('/',[AdminProductController::class,'index'])->name('adProducts.index');
-    Route::resource('adProducts', AdminProductController::class)->except('index');
+    //Dashboard Route
+    Route::get('/',[AdminDashboardController::class,'index'])->name('index');
+
+    //Products Route
+    Route::get('products',[AdminProductController::class,'index'])->name('products.index');
+    Route::resource('products', AdminProductController::class)->except('index');
+
+    //Users Routes
+    Route::get('users',[AdminUserController::class,'index'])->name('users.index');
+    Route::resource('users', AdminUserController::class)->except('index');
+
+    //Category Routes
+    Route::get('categories',[AdminCategoryController::class,'index'])->name('categories.index');
+    Route::resource('categories', AdminCategoryController::class)->except('index');
 });
 
 

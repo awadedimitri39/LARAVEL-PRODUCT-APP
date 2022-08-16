@@ -4,11 +4,18 @@
             {{ __('Products') }}
         </h2>
     </x-slot>
+    <div>
+        @if (session('message'))
+            <h5 class="bg-green-100 rounded-lg py-4 px-5 mb-4 text-base text-green-700" role="alert">
+                {{session('message')}}
+            </h5>
+        @endif
+    </div>
     <div class="grid grid-cols-4 gap-2">
         @foreach ($products as $product)
             <div class="m-3 p-1 rounded-lg border border-gray-400 shadow dark:bg-gray-800 dark:border-gray-700">
                 <a href="{{Route('product.show',$product)}}">
-                    <img class="px-1 py-1" src="{{$product->image}}" alt="step3">
+                    <img class="px-1 py-1" src="{{ asset('/storage/'.$product->image)}}" alt="step3">
                 </a>
                 <h5 class="my-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                     {{ $product->name }}

@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreProductRequest;
+use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -14,7 +17,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return view('admin.product.index');
+        $products = Product::all();
+        return view('admin.product.index',compact('products'));
     }
 
     /**
@@ -24,7 +28,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::all();
+        return view('admin.product.create',compact('categories'));
     }
 
     /**
@@ -33,9 +38,17 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreProductRequest $request)
     {
-        //
+        $imageName = $request->image->store('products');
+
+        Product::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'image' => $imageName
+        ]);
+
+        return redirect()->route('admin.products.index')->with('message','Product added successfully');
     }
 
     /**
@@ -55,9 +68,10 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Product $product)
     {
-        //
+        $categories = Category::all();
+        return view('admin.product.edit',compact('product','categories'));
     }
 
     /**
@@ -67,9 +81,23 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreProductRequest $request, Product $product)
     {
-        //
+        $arrayUpdate = [
+            'name' => $request->name,
+            'description' => $request->description
+        ];
+
+        if ($request->image != null) {
+            $imageName = $request->image->store('products');
+
+            $arrayUpdate = array_merge($arrayUpdate,[
+                'image' => $imageName
+            ]);
+        }
+
+        $product->update($arrayUpdate);
+        return redirect()->route('admin.products.index')->with('message','Product updated successfully');
     }
 
     /**
@@ -78,8 +106,9 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Product $product)
     {
-        //
+        $product->delete();
+        return redirect()->route('admin.products.index')->with('message','Product deleted successfully');
     }
 }
